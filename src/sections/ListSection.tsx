@@ -30,6 +30,7 @@ export default function ListSection({
 
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [sortType, setSortType] = useState<SortType>("date");
+  const [isSortAscending, setIsSortAscending] = useState<boolean>(false);
 
   let detailedResults = detailedResultsMap
     ? [...detailedResultsMap.values()]
@@ -83,27 +84,41 @@ export default function ListSection({
     setSelectedResultId(null);
 
     const newSortType = event.target.value as SortType;
-    setSortType(newSortType);
 
     let newFilteredDetails: DetailedResult[] = structuredClone(filteredDetails);
+    let newIsSortAscending = isSortAscending;
 
     if (newSortType === "name") {
       // sorting by name should be ascending by default
-      newFilteredDetails = sortDetailedResults(
-        filteredDetails,
-        newSortType,
-        true,
-      );
+      newIsSortAscending = true;
     } else if (newSortType === "date") {
       // sorting by date should be descending by default
-      newFilteredDetails = sortDetailedResults(
-        filteredDetails,
-        newSortType,
-        false,
-      );
+      newIsSortAscending = false;
     }
 
+    newFilteredDetails = sortDetailedResults(
+      filteredDetails,
+      newSortType,
+      newIsSortAscending,
+    );
+
     setFilteredDetails(newFilteredDetails);
+    setSortType(newSortType);
+    setIsSortAscending(newIsSortAscending);
+  }
+
+  function toggleAscending() {
+    const newIsSortAscending = !isSortAscending;
+
+    let newFilteredDetails: DetailedResult[] = structuredClone(filteredDetails);
+    newFilteredDetails = sortDetailedResults(
+      newFilteredDetails,
+      sortType,
+      newIsSortAscending,
+    );
+
+    setFilteredDetails(newFilteredDetails);
+    setIsSortAscending(newIsSortAscending);
   }
 
   return (
@@ -121,12 +136,21 @@ export default function ListSection({
         <p>No results found</p>
       ) : (
         <div>
-          <form>
+          <form
+            className="flex items-center"
+            onSubmit={(e) => e.preventDefault()}
+          >
             <SortSelectorList
               name="sortType"
               selectedSortType={sortType}
               onChange={handleSortTypeChange}
             />
+
+            <div>
+              <button onClick={toggleAscending}>
+                {isSortAscending ? "Ascending" : "Descending"}
+              </button>
+            </div>
           </form>
 
           <ResultList
