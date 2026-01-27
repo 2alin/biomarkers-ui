@@ -1,8 +1,14 @@
+/**
+ * Biomarker high and low reference range
+ */
 export interface ReferenceRange {
   low: number;
   high: number;
 }
 
+/**
+ * Biomarker data
+ */
 export interface Biomarker {
   id: string;
   name: string;

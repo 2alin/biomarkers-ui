@@ -1,3 +1,6 @@
+/**
+ * Clinical result data
+ */
 export interface Result {
   id: string;
   biomarkerId: string;
