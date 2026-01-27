@@ -1,8 +1,11 @@
+import Layout from "./layouts/Layout";
+import ResultsPage from "./pages/ResultsPage";
+
 function App() {
   return (
-    <>
-      <h1 className="text-xl font-bold">Biomarkers App</h1>
-    </>
+    <Layout>
+      <ResultsPage />
+    </Layout>
   );
 }
 
