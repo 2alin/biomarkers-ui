@@ -1,7 +1,7 @@
 function App() {
   return (
     <>
-      <h1>Biomarkers App</h1>
+      <h1 className="text-xl font-bold">Biomarkers App</h1>
     </>
   );
 }
