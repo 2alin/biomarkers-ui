@@ -14,6 +14,8 @@ import type { CategorySelectorData } from "../components/CategorySelectorList.ty
 
 import { ResultList } from "../components/ResultList";
 import CategorySelectorList from "../components/CategorySelectorList";
+import SortSelectorList from "../components/SortSelectorList";
+import type { SortType } from "../components/SortSelectorList.types";
 
 interface ListSectionProps {
   selectedResultId: string | null;
@@ -26,13 +28,16 @@ export default function ListSection({
 }: ListSectionProps) {
   const detailedResultsMap = useContext(DetailedResultsContext);
 
-  const detailedResults = detailedResultsMap
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [sortType, setSortType] = useState<SortType>("date");
+
+  let detailedResults = detailedResultsMap
     ? [...detailedResultsMap.values()]
     : [];
+  detailedResults = sortDetailedResults(detailedResults, sortType, false);
+
   const [filteredDetails, setFilteredDetails] =
     useState<DetailedResult[]>(detailedResults);
-
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
 
   if (!detailedResultsMap) {
     return;
@@ -41,6 +46,11 @@ export default function ListSection({
   const categorySelectorDataList =
     getCategorySelectorDataList(detailedResultsMap);
 
+  /**
+   * Handle changes on category
+   *
+   * @param event The "change" event being fired
+   */
   function handleCategoryChange(event: ChangeEvent<HTMLInputElement>) {
     setSelectedResultId(null);
 
@@ -64,6 +74,38 @@ export default function ListSection({
     setFilteredDetails(newFilteredDetails);
   }
 
+  /**
+   * Handle changes on sort type
+   *
+   * @param event The "change" event being fired
+   */
+  function handleSortTypeChange(event: ChangeEvent<HTMLInputElement>) {
+    setSelectedResultId(null);
+
+    const newSortType = event.target.value as SortType;
+    setSortType(newSortType);
+
+    let newFilteredDetails: DetailedResult[] = structuredClone(filteredDetails);
+
+    if (newSortType === "name") {
+      // sorting by name should be ascending by default
+      newFilteredDetails = sortDetailedResults(
+        filteredDetails,
+        newSortType,
+        true,
+      );
+    } else if (newSortType === "date") {
+      // sorting by date should be descending by default
+      newFilteredDetails = sortDetailedResults(
+        filteredDetails,
+        newSortType,
+        false,
+      );
+    }
+
+    setFilteredDetails(newFilteredDetails);
+  }
+
   return (
     <section className="flex flex-1 flex-col bg-pink-300 overflow-auto">
       <form className="shrink-0 overflow-auto">
@@ -78,10 +120,20 @@ export default function ListSection({
       {!filteredDetails.length ? (
         <p>No results found</p>
       ) : (
-        <ResultList
-          detailedResults={filteredDetails}
-          {...{ selectedResultId, setSelectedResultId }}
-        />
+        <div>
+          <form>
+            <SortSelectorList
+              name="sortType"
+              selectedSortType={sortType}
+              onChange={handleSortTypeChange}
+            />
+          </form>
+
+          <ResultList
+            detailedResults={filteredDetails}
+            {...{ selectedResultId, setSelectedResultId }}
+          />
+        </div>
       )}
     </section>
   );
@@ -121,4 +173,56 @@ function getCategorySelectorDataList(
   }
 
   return selectorDataList;
+}
+
+/**
+ * Sorts the given list of detailed results without mutating the original array.
+ *
+ * @param detailedResults The list of detailed results to sor.
+ * @param sortType The type of sorting
+ * @param isAscending Whether the sort should be ascending or descending
+ * @returns A new sorted array of detailed results
+ */
+function sortDetailedResults(
+  detailedResults: DetailedResult[],
+  sortType: SortType,
+  isAscending: boolean,
+): DetailedResult[] {
+  const newDetailedResults = structuredClone(detailedResults);
+
+  newDetailedResults.sort((a, b) => {
+    const sortReturnValue = isAscending ? 1 : -1;
+    const aName = (a.biomarker?.name || "").toLowerCase();
+    const bName = (b.biomarker?.name || "").toLowerCase();
+    const aTimeStamp = new Date(a.result.sampledAt).getTime();
+    const bTimeStamp = new Date(b.result.sampledAt).getTime();
+
+    if (sortType === "name") {
+      if (bName < aName) {
+        return sortReturnValue;
+      } else if (aName < bName) {
+        return -1 * sortReturnValue;
+      } else {
+        // let's compare dates when names are equal
+        return sortReturnValue * (bTimeStamp - aTimeStamp);
+      }
+    } else if (sortType === "date") {
+      if (bTimeStamp !== aTimeStamp) {
+        return sortReturnValue * (aTimeStamp - bTimeStamp);
+      } else {
+        // let's compare names when dates are equal
+        if (bName < aName) {
+          return -1 * sortReturnValue;
+        } else if (aName < bName) {
+          return sortReturnValue;
+        } else {
+          return 0;
+        }
+      }
+    }
+
+    return 0;
+  });
+
+  return newDetailedResults;
 }

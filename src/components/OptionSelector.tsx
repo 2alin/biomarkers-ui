@@ -25,13 +25,13 @@ export default function OptionSelector({
           variant === "primary"
             ? `
               inline-block rounded-full px-4 py-2 font-medium capitalize shadow-md cursor-pointer
-              focus-within:outline-4 focus-within:outline-green-400
+              has-focus-visible:outline-4  has-focus-visible:outline-green-400
               ${checked ? "bg-blue-800 text-white" : "bg-white outline-1 outline-gray-400"}
               `
             : variant === "secondary"
               ? `
                 inline-block capitalize font-normal px-1 py-0.5 cursor-pointer border-b-2 
-                focus-within:outline-4 focus-within:outline-green-400
+                has-focus-visible:outline-4 has-focus-visible:outline-green-400
                 ${checked ? "border-black" : "border-transparent"}
                 `
               : ""

@@ -4,7 +4,6 @@ import type { CategorySelectorData } from "./CategorySelectorList.types";
 
 interface CategorySelectorListProps {
   name: string;
-  label?: string;
   selectedCategory: string;
   selectorDataList: CategorySelectorData[];
   onChange: ChangeEventHandler<HTMLInputElement>;
@@ -12,15 +11,12 @@ interface CategorySelectorListProps {
 
 export default function CategorySelectorList({
   name,
-  label,
   selectedCategory,
   selectorDataList,
   onChange,
 }: CategorySelectorListProps) {
   return (
-    <fieldset className="flex gap-4 px-4 py-2">
-      {label && <legend>{label}</legend>}
-
+    <div className="flex gap-4 px-4 py-2">
       {selectorDataList.map(({ value, text }) => (
         <OptionSelector
           key={value}
@@ -32,6 +28,6 @@ export default function CategorySelectorList({
           onChange={onChange}
         ></OptionSelector>
       ))}
-    </fieldset>
+    </div>
   );
 }

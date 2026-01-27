@@ -22,7 +22,7 @@ export function ResultList({
           }}
           className={selectedResultId === result.id ? "bg-yellow-200" : ""}
         >
-          {`id: ${result.id} - bname: ${biomarker?.name} - bcat: ${biomarker?.category}`}
+          {`id: ${result.id} - bname: ${biomarker?.name} - bcat: ${biomarker?.category} - date: ${result.sampledAt}`}
         </li>
       ))}
     </ul>
