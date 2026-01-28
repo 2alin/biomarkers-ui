@@ -18,6 +18,10 @@ import SortSelectorList from "../components/SortSelectorList";
 import type { SortType } from "../components/SortSelectorList.types";
 
 import IconButton from "../components/IconButton";
+import {
+  defaultAscendingByType,
+  sortDetailedResults,
+} from "../utilities/sorting";
 
 interface ListSectionProps {
   selectedResultId: string | null;
@@ -31,14 +35,21 @@ export default function ListSection({
   const detailedResultsMap = useContext(DetailedResultsContext);
 
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [sortType, setSortType] = useState<SortType>("date");
-  const [isSortAscending, setIsSortAscending] = useState<boolean>(false);
+
+  const initialSortType = "date";
+  const [sortType, setSortType] = useState<SortType>(initialSortType);
+  const [isSortAscending, setIsSortAscending] = useState<boolean>(
+    defaultAscendingByType[initialSortType],
+  );
 
   let detailedResults = detailedResultsMap
     ? [...detailedResultsMap.values()]
     : [];
-  detailedResults = sortDetailedResults(detailedResults, sortType, false);
-
+  detailedResults = sortDetailedResults(
+    detailedResults,
+    sortType,
+    isSortAscending,
+  );
   const [filteredDetails, setFilteredDetails] =
     useState<DetailedResult[]>(detailedResults);
 
@@ -88,15 +99,7 @@ export default function ListSection({
     const newSortType = event.target.value as SortType;
 
     let newFilteredDetails: DetailedResult[] = structuredClone(filteredDetails);
-    let newIsSortAscending = isSortAscending;
-
-    if (newSortType === "name") {
-      // sorting by name should be ascending by default
-      newIsSortAscending = true;
-    } else if (newSortType === "date") {
-      // sorting by date should be descending by default
-      newIsSortAscending = false;
-    }
+    const newIsSortAscending = defaultAscendingByType[newSortType];
 
     newFilteredDetails = sortDetailedResults(
       filteredDetails,
@@ -109,6 +112,9 @@ export default function ListSection({
     setIsSortAscending(newIsSortAscending);
   }
 
+  /**
+   * Changes the sort order from ascendence to descendence and viceversa
+   */
   function toggleAscending() {
     const newIsSortAscending = !isSortAscending;
 
@@ -139,7 +145,9 @@ export default function ListSection({
       </form>
 
       {!filteredDetails.length ? (
-        <p>No results found</p>
+        <p className="text-center p-4 font-bold text-secondary-800">
+          No filtered results found
+        </p>
       ) : (
         <div className="flex flex-col overflow-auto">
           <form
@@ -205,56 +213,4 @@ function getCategorySelectorDataList(
   }
 
   return selectorDataList;
-}
-
-/**
- * Sorts the given list of detailed results without mutating the original array.
- *
- * @param detailedResults The list of detailed results to sor.
- * @param sortType The type of sorting
- * @param isAscending Whether the sort should be ascending or descending
- * @returns A new sorted array of detailed results
- */
-function sortDetailedResults(
-  detailedResults: DetailedResult[],
-  sortType: SortType,
-  isAscending: boolean,
-): DetailedResult[] {
-  const newDetailedResults = structuredClone(detailedResults);
-
-  newDetailedResults.sort((a, b) => {
-    const sortReturnValue = isAscending ? 1 : -1;
-    const aName = (a.biomarker?.name || "").toLowerCase();
-    const bName = (b.biomarker?.name || "").toLowerCase();
-    const aTimeStamp = new Date(a.result.sampledAt).getTime();
-    const bTimeStamp = new Date(b.result.sampledAt).getTime();
-
-    if (sortType === "name") {
-      if (bName < aName) {
-        return sortReturnValue;
-      } else if (aName < bName) {
-        return -1 * sortReturnValue;
-      } else {
-        // when names are equal, let's always sort from new to old date
-        return bTimeStamp - aTimeStamp;
-      }
-    } else if (sortType === "date") {
-      if (bTimeStamp !== aTimeStamp) {
-        return sortReturnValue * (aTimeStamp - bTimeStamp);
-      } else {
-        // when dates are equal, let's always sort ascendently in name
-        if (bName < aName) {
-          return 1 ;
-        } else if (aName < bName) {
-          return -1;
-        } else {
-          return 0;
-        }
-      }
-    }
-
-    return 0;
-  });
-
-  return newDetailedResults;
 }
