@@ -19,6 +19,7 @@ export default function ResultCard({
 
   return (
     <button
+      aria-label={`View details for ${biomarker ? biomarker.name : "biomarker"}`}
       onClick={onClick}
       className={`w-full sm:max-w-2xl rounded-2xl p-4 cursor-pointer transition-all
                         ${isSelected ? "bg-primary-100" : "bg-secondary-100"}`}

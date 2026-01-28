@@ -16,7 +16,7 @@ export function NotesCard({ biomarker }: NotesCardProps) {
   const [note, setNote] = useState("");
 
   /**
-   * Syncs with storage
+   * Initial sync with storage
    */
   useEffect(() => {
     const fetchNotes = async () => {
