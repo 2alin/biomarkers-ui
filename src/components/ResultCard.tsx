@@ -27,7 +27,7 @@ export default function ResultCard({
                     sm:grid-cols-[2fr_1fr_1fr] sm:grid-rows-[auto_auto]`}
       >
         {/* biomarker name */}
-        <h1 className="order-2 tracking-wider font-semibold text-lg justify-self-start">
+        <h1 className="order-2 tracking-wider font-semibold text-lg justify-self-start text-start">
           {biomarker ? biomarker.name : result.biomarkerId}
         </h1>
         {/* category */}
