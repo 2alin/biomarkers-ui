@@ -78,7 +78,7 @@ export function NotesCard({ biomarker }: NotesCardProps) {
         <span
           className={`ml-2 size-6 bg-secondary-600 mask-size-[100%] mask-[url(./assets/cloud-check.svg)] transition-all 
             
-            ${syncState === "done" ? "opacity-100" : "opacity-0"}`}
+            ${syncState === "done" || syncState === "idle" ? "opacity-100" : "opacity-0"}`}
         ></span>
       </div>
       <textarea
