@@ -30,7 +30,7 @@ export default function DetailsSection({
   }
 
   return (
-    <section className="sm:border-l-2 sm:border-secondary-600 sm:ml-4 h-full w-full sm:w-2xl">
+    <section className="h-full w-full md:ml-4 md:w-xs md:border-l-2 md:border-secondary-600 lg:w-lg">
       <header className="bg-secondary-600 text-white flex justify-between items-center p-2">
         <h1 className="font-semibold tracking-wider text-lg ">
           {biomarker ? biomarker.name : result.biomarkerId}
