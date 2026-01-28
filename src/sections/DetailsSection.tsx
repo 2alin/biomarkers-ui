@@ -13,38 +13,42 @@ export default function DetailsSection({
 }: DetailsSectionProps) {
   const detailedResultsMap = useContext(DetailedResultsContext);
 
-  if (!selectedResultId || !detailedResultsMap) {
-    return;
+  let detailedResult = null;
+
+  if (detailedResultsMap && selectedResultId) {
+    detailedResult = detailedResultsMap.get(selectedResultId);
   }
-
-  const detailedResult = detailedResultsMap.get(selectedResultId);
-
-  if (!detailedResult) {
-    return;
-  }
-
-  const { result, biomarker } = detailedResult;
 
   function handleClose() {
     setSelectedResultId(null);
   }
 
   return (
-    <section className="h-full w-full md:ml-4 md:w-xs md:border-l-2 md:border-secondary-600 lg:w-lg">
-      <header className="bg-secondary-600 text-white flex justify-between items-center p-2">
-        <h1 className="font-semibold tracking-wider text-lg ">
-          {biomarker ? biomarker.name : result.biomarkerId}
-        </h1>
-        <button
-          aria-label="Close Details section"
-          className="size-7 rounded-full cursor-pointer mx-4"
-          onClick={handleClose}
-        >
-          <img src={closeIcon} alt="" className="size-full"></img>
-        </button>
-      </header>
-      <p>Details Section</p>
-      <p>Selected ID: {selectedResultId}</p>
+    <section
+      className={`h-full md:ml-4 md:border-l-2 md:border-secondary-600 md:transition-all md:duration-300 md:ease-in-out 
+        ${selectedResultId ? "flex-1  md:flex-1" : "flex-0"}
+    `}
+    >
+      {detailedResult && (
+        <>
+          <header className="bg-secondary-600 text-white flex justify-between items-center p-2">
+            <h1 className="font-semibold tracking-wider text-lg ">
+              {detailedResult.biomarker
+                ? detailedResult.biomarker.name
+                : detailedResult.result.biomarkerId}
+            </h1>
+            <button
+              aria-label="Close Details section"
+              className="size-7 rounded-full cursor-pointer mx-4"
+              onClick={handleClose}
+            >
+              <img src={closeIcon} alt="" className="size-full"></img>
+            </button>
+          </header>
+          <p>Details Section</p>
+          <p>Selected ID: {selectedResultId}</p>
+        </>
+      )}
     </section>
   );
 }

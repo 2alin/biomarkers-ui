@@ -124,7 +124,9 @@ export default function ListSection({
   }
 
   return (
-    <section className="flex flex-1 flex-col overflow-auto">
+    <section className={`flex  flex-col overflow-auto md:transition-all md:duration-300 md:ease-in-out
+      ${selectedResultId ? "flex-0 md:flex-1 lg:flex-2"   : "flex-1" }
+    `}>
       <form className="flex shrink-0 overflow-auto justify-center">
         <CategorySelectorList
           name="category"
