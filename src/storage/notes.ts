@@ -14,7 +14,6 @@ const storageKey = "notes";
  * @param value The notes to store
  */
 async function set(biomarkerId: string, value: string) {
-  console.log("storing", value);
   const storedData = localStorage.getItem(storageKey);
   const notes: Record<string, string> = storedData
     ? JSON.parse(storedData)

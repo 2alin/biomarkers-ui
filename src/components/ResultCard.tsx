@@ -15,6 +15,8 @@ export default function ResultCard({
 }: ResultCardProps) {
   const { result, biomarker } = detailedResult;
 
+  const resultDate = new Date(result.sampledAt);
+
   return (
     <button
       onClick={onClick}
@@ -34,8 +36,16 @@ export default function ResultCard({
         <p className="order-1 justify-self-start text-sm font-semibold tracking-wider text-gray-600 uppercase">
           {biomarker && biomarker.category}
         </p>
+        {/* date */}
+        <p className="order-4 justify-self-end text-sm tracking-wide text-gray-600 sm:order-3 sm:justify-self-start">
+          {resultDate.toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </p>
         {/* measurement */}
-        <p className="order-3 justify-self-start sm:row-start-2">
+        <p className="order-3 sm:order-4 justify-self-start">
           <span className="font-semibold text-2xl mr-1">{result.value}</span>
           <span className="text-sm tracking-wide font-semibold text-gray-600 justify-self-start">
             {biomarker && biomarker.standardUnit}
@@ -51,7 +61,7 @@ export default function ResultCard({
           )}
         </p>
         {/* reference range */}
-        <p className="order-6 sm:order-5 text-sm tracking-wide text-gray-600 justify-self-end">
+        <p className="order-6 justify-self-end text-sm tracking-wide text-gray-600 sm:order-5">
           {biomarker && (
             <>
               <span className="mr-1">Range:</span>

@@ -124,9 +124,11 @@ export default function ListSection({
   }
 
   return (
-    <section className={`flex  flex-col overflow-auto md:transition-all md:duration-300 md:ease-in-out
-      ${selectedResultId ? "flex-0 md:flex-1 lg:flex-2"   : "flex-1" }
-    `}>
+    <section
+      className={`flex  flex-col overflow-auto md:transition-all md:duration-300 md:ease-in-out
+      ${selectedResultId ? "flex-0 md:flex-1 lg:flex-2" : "flex-1"}
+    `}
+    >
       <form className="flex shrink-0 overflow-auto justify-center">
         <CategorySelectorList
           name="category"
@@ -233,18 +235,18 @@ function sortDetailedResults(
       } else if (aName < bName) {
         return -1 * sortReturnValue;
       } else {
-        // let's compare dates when names are equal
-        return sortReturnValue * (bTimeStamp - aTimeStamp);
+        // when names are equal, let's always sort from new to old date
+        return bTimeStamp - aTimeStamp;
       }
     } else if (sortType === "date") {
       if (bTimeStamp !== aTimeStamp) {
         return sortReturnValue * (aTimeStamp - bTimeStamp);
       } else {
-        // let's compare names when dates are equal
+        // when dates are equal, let's always sort ascendently in name
         if (bName < aName) {
-          return -1 * sortReturnValue;
+          return 1 ;
         } else if (aName < bName) {
-          return sortReturnValue;
+          return -1;
         } else {
           return 0;
         }
