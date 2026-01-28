@@ -20,7 +20,7 @@ export default function StatusBadge({ value, range }: StatusBadgeProps) {
 
   const bgVariant: Record<statusType, string> = {
     low: "bg-orange-600",
-    high: "bg-orange-600",
+    high: "bg-red-600",
     normal: "bg-secondary-600",
   };
 
