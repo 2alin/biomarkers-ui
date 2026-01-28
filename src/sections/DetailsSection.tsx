@@ -2,6 +2,7 @@ import { useContext, type Dispatch, type SetStateAction } from "react";
 import { DetailedResultsContext } from "../contexts/DetailedResultsContext";
 import closeIcon from "../assets/arrow-right.svg";
 import { DetailsCard } from "../components/DetailsCard";
+import { NotesCard } from "../components/NotesCard";
 
 interface DetailsSectionProps {
   selectedResultId: string | null;
@@ -46,8 +47,11 @@ export default function DetailsSection({
               <img src={closeIcon} alt="" className="size-full"></img>
             </button>
           </header>
-          <div className="p-3">
+          <div className="flex flex-col p-3 gap-3">
             <DetailsCard {...{ detailedResult }} />
+            {detailedResult.biomarker && (
+              <NotesCard biomarker={detailedResult.biomarker} />
+            )}
           </div>
         </div>
       )}
