@@ -39,11 +39,20 @@ export function DetailsCard({ detailedResult }: DetailsCardProps) {
         <span>{result.value}</span>
         <span className="ml-2">{biomarker?.standardUnit}</span>
       </p>
+      {/* Reference range */}
+      {biomarker && (
+        <>
+          <p className={fieldNameClass}>Range:</p>
+          <p>
+            {`${biomarker.referenceRange.low} - ${biomarker.referenceRange.high}`}
+          </p>
+        </>
+      )}
       {/* Interpration */}
       {biomarker && (
         <>
-          <p className={fieldNameClass}>interpretation:</p>
-          <p> {getInterpration(result, biomarker)}</p>
+          <p className={fieldNameClass}>remarks:</p>
+          <p>{getInterpration(result, biomarker)}</p>
         </>
       )}
     </article>
