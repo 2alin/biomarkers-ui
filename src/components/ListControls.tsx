@@ -34,12 +34,9 @@ export default function ListControls({
     getCategorySelectorDataList(detailedResultsMap);
 
   return (
-    <div
-      role="group"
-      className="px-4 py-2 gap-1 flex flex-col"
-    >
+    <div role="group" className="px-4 py-2 gap-1 flex flex-col">
       <form
-        className="flex items-center justify-end gap-4"
+        className="flex gap-4 overflow-x-auto sm:items-center sm:justify-end "
         onSubmit={(e) => e.preventDefault()}
       >
         <SortTypeSelectors

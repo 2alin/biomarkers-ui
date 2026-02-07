@@ -16,7 +16,7 @@ export default function SortTypeSelectors({
   const sortTypes: SortType[] = ["date", "name"];
 
   return (
-    <div className="flex p-1 gap-3 items-center">
+    <div className="flex shrink-0 p-1 gap-3 items-center">
       <span className="font-light text-sm text-gray-900">Sort by:</span>
 
       {sortTypes.map((sortType) => (

@@ -7,35 +7,40 @@ interface StatusBadgeProps {
   range: ReferenceRange;
 }
 
-
 export default function StatusBadge({ value, range }: StatusBadgeProps) {
-
   const status = getStatus(value, range);
 
   const bgVariant: Record<StatusType, string> = {
-    low: "bg-orange-600",
-    high: "bg-red-600",
-    normal: "bg-secondary-600",
+    low: "bg-alert-100",
+    high: "bg-alert-100",
+    normal: "bg-postive-100",
+  };
+
+  const textVariant: Record<StatusType, string> = {
+    low: "text-alert-900",
+    high: "text-alert-900",
+    normal: "text-postive-900",
   };
 
   return (
     <span
-      className={`flex justify-center items-center gap-2 rounded-full px-4 py-1 text-white
+      className={`flex justify-center items-center gap-2 rounded-full px-4 py-1
+                  ${textVariant[status]}
                   ${bgVariant[status]}
                 `}
     >
       <span
-        className={`bg-white size-4 mask-size-[100%]
+        className={`size-4 mask-size-[100%]
             ${
               status === "low"
-                ? "mask-[url(./assets/down.svg)]"
+                ? "mask-[url(./assets/down.svg)] bg-alert-900"
                 : status === "high"
-                  ? "mask-[url(./assets/up.svg)]"
-                  : "mask-[url(./assets/check.svg)]"
+                  ? "mask-[url(./assets/up.svg)] bg-alert-900"
+                  : "mask-[url(./assets/check.svg)] bg-postive-900"
             }
           `}
       ></span>
-      <span className="capitalize font-semibold text-sm">{status}</span>
+      <span className="capitalize text-sm">{status}</span>
     </span>
   );
 }

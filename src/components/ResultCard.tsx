@@ -1,6 +1,7 @@
 import type { MouseEventHandler } from "react";
 import type { DetailedResult } from "../contexts/DetailedResultsContext.types";
 import StatusBadge from "./StatusBadge";
+import { getStatus } from "../utilities/biomarkerStatus";
 
 interface ResultCardProps {
   detailedResult: DetailedResult;
@@ -21,39 +22,47 @@ export default function ResultCard({
     <button
       aria-label={`View details for ${biomarker ? biomarker.name : "biomarker"}`}
       onClick={onClick}
-      className={`w-full sm:max-w-2xl rounded-2xl p-4 cursor-pointer transition-all
-                        ${isSelected ? "bg-primary-100" : "bg-secondary-100"}`}
+      className={`w-full sm:max-w-2xl rounded-2xl p-4 bg-white outline-1 cursor-pointer transition-all
+                  ${isSelected ? "shadow-md shadow-primary-100 outline-primary-200" : " outline-gray-200"}`}
     >
       <article
-        className={`grid items-center gap-x-6 gap-y-1
-                    grid-flow-col grid-cols-[auto_auto] grid-rows-[auto_auto_auto]
-                    sm:grid-cols-[2fr_1fr_1fr] sm:grid-rows-[auto_auto]`}
+        className={`grid items-center gap-x-6 gap-y-2
+                    grid-flow-row grid-cols-[1fr_2fr] grid-rows-[auto_auto_auto]
+                    sm:grid-cols-[1fr_2fr_1fr] sm:grid-rows-[auto_auto]`}
       >
         {/* biomarker name */}
-        <h1 className="order-2 tracking-wider font-semibold text-lg justify-self-start text-start">
+        <h1 className="order-2 tracking-wider font-semibold justify-self-start text-start sm:justify-self-center">
           {biomarker ? biomarker.name : result.biomarkerId}
         </h1>
         {/* category */}
-        <p className="order-1 justify-self-start text-sm font-semibold tracking-wider text-gray-600 uppercase">
+        <p className="order-4 justify-self-start text-sm font-semibold tracking-wider text-gray-600 sm:order-3 sm:justify-self-end">
           {biomarker && biomarker.category}
         </p>
         {/* date */}
-        <p className="order-4 justify-self-end text-sm tracking-wide text-gray-600 sm:order-3 sm:justify-self-start">
+        {/* we are hiding date at the moment, as we may not need it */}
+        <p className="hidden justify-self-end text-sm tracking-wide text-gray-700 sm:justify-self-start">
           {resultDate.toLocaleDateString(undefined, {
             year: "numeric",
             month: "long",
             day: "numeric",
           })}
         </p>
-        {/* measurement */}
-        <p className="order-3 sm:order-4 justify-self-start">
-          <span className="font-semibold text-2xl mr-1">{result.value}</span>
-          <span className="text-sm tracking-wide font-semibold text-gray-600 justify-self-start">
+        {/* value + unit */}
+        <p className="order-3 justify-self-end sm:order-4 sm:col-start-2 sm:justify-self-center">
+          <span
+            className={`
+              font-semibold mr-1
+              ${biomarker && getStatus(result.value, biomarker.referenceRange) === "normal" ? "text-postive-600" : "text-alert-700"}
+            `}
+          >
+            {result.value}
+          </span>
+          <span className="text-sm tracking-wide font-semibold text-gray-700 justify-self-start">
             {biomarker && biomarker.standardUnit}
           </span>
         </p>
-        {/* evaluation */}
-        <p className="order-5 sm:order-6 justify-self-end row-start-2">
+        {/* status (normal, low, high) */}
+        <p className="order-1 justify-self-end sm:justify-self-start">
           {biomarker && (
             <StatusBadge
               value={result.value}
@@ -62,11 +71,11 @@ export default function ResultCard({
           )}
         </p>
         {/* reference range */}
-        <p className="order-6 justify-self-end text-sm tracking-wide text-gray-600 sm:order-5">
+        <p className="order-5 justify-self-end text-sm tracking-wide text-gray-700 sm:justify-self-end">
           {biomarker && (
             <>
-              <span className="mr-1">Range:</span>
-              <span>{`${biomarker.referenceRange.low} - ${biomarker.referenceRange.high}`}</span>
+              <span className="mr-1">Target:</span>
+              <span className="whitespace-nowrap">{`${biomarker.referenceRange.low} - ${biomarker.referenceRange.high}`}</span>
             </>
           )}
         </p>

@@ -16,7 +16,7 @@ export default function CategorySelectors({
   onChange,
 }: CategorySelectorsProps) {
   return (
-    <div className="flex gap-4 p-1 overflow-auto">
+    <div className="flex gap-3 p-1 overflow-auto">
       {selectorDataList.map(({ value, text }) => (
         <OptionSelector
           key={value}

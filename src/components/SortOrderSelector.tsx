@@ -20,7 +20,7 @@ export default function SortOrderSelectors({
     : "descendent";
 
   return (
-    <div className="flex p-1 gap-3 items-center">
+    <div className="flex shrink-0 p-1 gap-3 items-center">
       <span className="font-light text-sm text-gray-900">Order:</span>
 
       {sortOrders.map((sortOrder) => (
