@@ -6,22 +6,17 @@ import {
   type SetStateAction,
 } from "react";
 import { DetailedResultsContext } from "../contexts/DetailedResultsContext";
-import type {
-  DetailedResult,
-  DetailedResultMap,
-} from "../contexts/DetailedResultsContext.types";
+import type { DetailedResult } from "../contexts/DetailedResultsContext.types";
 
 import { ResultList } from "../components/ResultList";
-import CategorySelectorList from "../components/CategorySelectorList";
-import type { CategorySelectorData } from "../components/CategorySelectorList.types";
-import SortSelectorList from "../components/SortSelectorList";
-import type { SortType } from "../components/SortSelectorList.types";
+import type { SortType } from "../components/SortTypeSelectors.types";
 
-import IconButton from "../components/IconButton";
 import {
   defaultAscendingByType,
   sortDetailedResults,
 } from "../utilities/sorting";
+import ListControls from "../components/ListControls";
+import type { SortOrder } from "../components/SortOrderSelectors.types";
 
 interface ListSectionProps {
   selectedResultId: string | null;
@@ -56,9 +51,6 @@ export default function ListSection({
   if (!detailedResultsMap) {
     return;
   }
-
-  const categorySelectorDataList =
-    getCategorySelectorDataList(detailedResultsMap);
 
   /**
    * Handle changes on category
@@ -113,10 +105,11 @@ export default function ListSection({
   }
 
   /**
-   * Changes the sort order from ascendence to descendence and viceversa
+   * Handle changes on sort order type
    */
-  function toggleAscending() {
-    const newIsSortAscending = !isSortAscending;
+  function handleSortOrderChange(event: ChangeEvent<HTMLInputElement>) {
+    const selectedSortOrder = event.target.value as SortOrder;
+    const newIsSortAscending = selectedSortOrder === "ascendent";
 
     let newFilteredDetails: DetailedResult[] = structuredClone(filteredDetails);
     newFilteredDetails = sortDetailedResults(
@@ -131,18 +124,20 @@ export default function ListSection({
 
   return (
     <section
-      className={`flex  flex-col overflow-auto md:transition-all md:duration-300 md:ease-in-out
+      className={`flex overflow-auto  flex-col md:transition-all md:duration-300 md:ease-in-out
       ${selectedResultId ? "flex-0 md:flex-1 lg:flex-2" : "flex-1"}
     `}
     >
-      <form className="flex shrink-0 overflow-auto justify-center">
-        <CategorySelectorList
-          name="category"
-          selectedCategory={selectedCategory}
-          selectorDataList={categorySelectorDataList}
-          onChange={handleCategoryChange}
-        ></CategorySelectorList>
-      </form>
+      <ListControls
+        {...{
+          sortType,
+          handleSortTypeChange,
+          isSortAscending,
+          handleSortOrderChange,
+          selectedCategory,
+          handleCategoryChange,
+        }}
+      />
 
       {!filteredDetails.length ? (
         <p className="text-center p-4 font-bold text-secondary-800">
@@ -150,25 +145,6 @@ export default function ListSection({
         </p>
       ) : (
         <div className="flex flex-col overflow-auto">
-          <form
-            className="flex items-center justify-center my-1"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <SortSelectorList
-              name="sortType"
-              selectedSortType={sortType}
-              onChange={handleSortTypeChange}
-            />
-
-            <div>
-              <IconButton
-                label="Toggle sort order"
-                iconType={isSortAscending ? "arrowUp" : "arrowDown"}
-                onClick={toggleAscending}
-              />
-            </div>
-          </form>
-
           <ResultList
             detailedResults={filteredDetails}
             {...{ selectedResultId, setSelectedResultId }}
@@ -177,40 +153,4 @@ export default function ListSection({
       )}
     </section>
   );
-}
-
-/**
- * Gets the required data to create a list of category selectors
- *
- * @param detailedResultsMap Map with detailed data per clinical result
- * @returns A list of required data to create a category selector
- */
-function getCategorySelectorDataList(
-  detailedResultsMap: DetailedResultMap,
-): CategorySelectorData[] {
-  const categories = new Set<string>();
-
-  detailedResultsMap.forEach(({ biomarker }) => {
-    if (biomarker) {
-      const category = biomarker.category.trim().toLowerCase();
-      categories.add(category);
-    }
-  });
-
-  // "all" categories selector should be the first in the list
-  const selectorDataList: CategorySelectorData[] = [
-    {
-      text: "all",
-      value: "all",
-    },
-  ];
-
-  for (const category of categories) {
-    selectorDataList.push({
-      text: category,
-      value: category,
-    });
-  }
-
-  return selectorDataList;
 }

@@ -1,4 +1,4 @@
-import type { SortType } from "../components/SortSelectorList.types";
+import type { SortType } from "../components/SortTypeSelectors.types";
 import type { DetailedResult } from "../contexts/DetailedResultsContext.types";
 
 /**

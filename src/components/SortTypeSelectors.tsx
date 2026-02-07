@@ -1,23 +1,23 @@
 import { type ChangeEventHandler } from "react";
 import OptionSelector from "./OptionSelector";
-import type { SortType } from "./SortSelectorList.types";
+import type { SortType } from "./SortTypeSelectors.types";
 
-interface SortSelectorList {
+interface SortTypeSelectorsProps {
   name: string;
   selectedSortType: string;
   onChange: ChangeEventHandler<HTMLInputElement>;
 }
 
-export default function SortSelectorList({
+export default function SortTypeSelectors({
   name,
   selectedSortType,
   onChange,
-}: SortSelectorList) {
+}: SortTypeSelectorsProps) {
   const sortTypes: SortType[] = ["date", "name"];
 
   return (
-    <div className="flex gap-4 px-4 py-2 items-center">
-      <span className="font-medium">Sort by:</span>
+    <div className="flex p-1 gap-3 items-center">
+      <span className="font-light text-sm text-gray-900">Sort by:</span>
 
       {sortTypes.map((sortType) => (
         <OptionSelector
@@ -26,7 +26,6 @@ export default function SortSelectorList({
           value={sortType}
           text={sortType}
           checked={selectedSortType === sortType}
-          variant="secondary"
           onChange={onChange}
         ></OptionSelector>
       ))}
