@@ -31,7 +31,7 @@ export default function ResultCard({
                     sm:grid-cols-[1fr_2fr_1fr] sm:grid-rows-[auto_auto]`}
       >
         {/* biomarker name */}
-        <h1 className="order-2 tracking-wider font-semibold justify-self-start text-start sm:justify-self-center">
+        <h1 className="order-2 tracking-wider font-semibold justify-self-start text-start sm:justify-self-center sm:text-center">
           {biomarker ? biomarker.name : result.biomarkerId}
         </h1>
         {/* category */}
@@ -71,11 +71,11 @@ export default function ResultCard({
           )}
         </p>
         {/* reference range */}
-        <p className="order-5 justify-self-end text-sm tracking-wide text-gray-700 sm:justify-self-end">
+        <p className="order-5 flex flex-wrap gap-1 justify-self-end justify-end text-sm tracking-wide text-gray-700">
           {biomarker && (
             <>
-              <span className="mr-1">Target:</span>
-              <span className="whitespace-nowrap">{`${biomarker.referenceRange.low} - ${biomarker.referenceRange.high}`}</span>
+              <span>Target:</span>
+              <span>{`${biomarker.referenceRange.low} - ${biomarker.referenceRange.high}`}</span>
             </>
           )}
         </p>

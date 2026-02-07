@@ -5,12 +5,20 @@ import ListSection from "../sections/ListSection";
 import type { FetchState } from "./ResultsPage.types";
 import LoadingSection from "../sections/LoadingSection";
 import ErrorSection from "../sections/ErrorSection";
-import type { DetailedResultMap } from "../contexts/DetailedResultsContext.types";
+import type {
+  DetailedResult,
+  DetailedResultMap,
+} from "../contexts/DetailedResultsContext.types";
 import {
   createDetailedResultsMap,
   DetailedResultsContext,
 } from "../contexts/DetailedResultsContext";
 import DetailsSection from "../sections/DetailsSection";
+import {
+  defaultAscendingByType,
+  sortDetailedResults,
+} from "../utilities/sorting";
+import ControlsSection from "../sections/ControlsSection";
 
 export default function ResultsPage() {
   const [fetchState, setFetchState] = useState<FetchState>("idle");
@@ -18,6 +26,10 @@ export default function ResultsPage() {
     useState<DetailedResultMap | null>(null);
 
   const [selectedResultId, setSelectedResultId] = useState<string | null>(null);
+
+  const initialSortType = "date";
+
+  const [filteredDetails, setFilteredDetails] = useState<DetailedResult[]>([]);
 
   /**
    * Initialization: fetch results and biomarkers data
@@ -34,6 +46,14 @@ export default function ResultsPage() {
 
         const newMap = createDetailedResultsMap(results, biomarkers);
         setDetailedResultsMap(newMap);
+
+        let newFilteredDetails = newMap ? [...newMap.values()] : [];
+        newFilteredDetails = sortDetailedResults(
+          newFilteredDetails,
+          initialSortType,
+          defaultAscendingByType[initialSortType],
+        );
+        setFilteredDetails(newFilteredDetails);
 
         setFetchState("success");
       } catch (err) {
@@ -59,10 +79,26 @@ export default function ResultsPage() {
     return <ErrorSection />;
   }
 
+  if (!detailedResultsMap) {
+    return;
+  }
+
   return (
     <DetailedResultsContext value={detailedResultsMap}>
-      <ListSection {...{ selectedResultId, setSelectedResultId }} />
-      <DetailsSection {...{ selectedResultId, setSelectedResultId }} />
+      <ControlsSection
+        {...{
+          initialSortType,
+          filteredDetails,
+          setFilteredDetails,
+          setSelectedResultId,
+        }}
+      />
+      <div className="flex overflow-auto">
+        <ListSection
+          {...{ filteredDetails, selectedResultId, setSelectedResultId }}
+        />
+        <DetailsSection {...{ selectedResultId, setSelectedResultId }} />
+      </div>
     </DetailedResultsContext>
   );
 }

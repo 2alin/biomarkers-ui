@@ -47,8 +47,8 @@ export default function DetailsSection({
 
   return (
     <section
-      className={`h-full md:shadow-xl md:rounded-tl-md overflow-auto md:transition-all md:duration-300 md:ease-in-out 
-        ${selectedResultId ? "flex-1  md:flex-1" : "flex-0"}
+      className={`h-full max-w-xl md:shadow-xl md:rounded-tl-md overflow-auto md:transition-all md:duration-300 md:ease-in-out 
+        ${selectedResultId ? "flex-1  md:flex-2" : "flex-0"}
     `}
     >
       {detailedResult && (

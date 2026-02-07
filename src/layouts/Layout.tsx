@@ -23,7 +23,7 @@ export default function Layout({ children }: PropsWithChildren) {
           <span className="w-6"></span>
         </h1>
       </header>
-      <main className="flex flex-1 overflow-hidden">{children}</main>
+      <main className="flex flex-col flex-1 overflow-hidden">{children}</main>
     </div>
   );
 }
