@@ -47,34 +47,42 @@ export default function DetailsSection({
 
   return (
     <section
-      className={`h-full max-w-xl md:shadow-xl md:rounded-tl-md overflow-auto md:transition-all md:duration-300 md:ease-in-out 
+      className={`
+        flex flex-col h-full overflow-hidden
+        md:max-w-xl md:rounded-xl md:border md:border-gray-200
+        md:transition-allmd:duration-300 md:ease-in-out 
         ${selectedResultId ? "flex-1  md:flex-2" : "flex-0"}
     `}
     >
       {detailedResult && (
-        <div>
-          <header className="bg-secondary-600 text-white flex justify-between items-center px-4 py-2">
-            <h1 className="font-semibold tracking-wider text-lg ">
-              {detailedResult.biomarker
-                ? detailedResult.biomarker.name
-                : detailedResult.result.biomarkerId}
+        <>
+          <header className="bg-secondary-75 border-b border-gray-200 flex justify-between items-center px-4 py-2">
+            <h1 className="flex flex-col ">
+              <span className="text-sm text-gray-800">
+                {detailedResult.biomarker && detailedResult.biomarker.category}
+              </span>
+              <span className="font-semibold tracking-wider text-lg ">
+                {detailedResult.biomarker
+                  ? detailedResult.biomarker.name
+                  : detailedResult.result.biomarkerId}
+              </span>
             </h1>
             <button
               ref={closeButtonRef}
               aria-label="Close details section"
-              className="size-7 rounded-full cursor-pointer mx-2"
+              className="flex size-8 cursor-pointer rounded-md p-1 outline outline-secondary-400"
               onClick={handleClose}
             >
-              <img src={closeIcon} alt="" className="size-full"></img>
+              <span className="size-full bg-secondary-800 mask-[url(./assets/close.svg)] mask-size-[100%]"></span>
             </button>
           </header>
-          <div className="flex flex-col p-3 gap-3">
+          <div className="flex overflow-auto flex-col p-4 gap-4">
             <DetailsCard {...{ detailedResult }} />
             {detailedResult.biomarker && (
               <NotesCard biomarker={detailedResult.biomarker} />
             )}
           </div>
-        </div>
+        </>
       )}
     </section>
   );

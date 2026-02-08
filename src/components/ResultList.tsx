@@ -14,7 +14,7 @@ export function ResultList({
   setSelectedResultId,
 }: ResultsListProps) {
   return (
-    <ul className="my-1 flex flex-col items-stretch gap-4 px-4">
+    <ul className="my-1 flex flex-col gap-4 px-4">
       {detailedResults.map((detailedResult) => (
         <li key={detailedResult.result.id} className="flex justify-center">
           <ResultCard

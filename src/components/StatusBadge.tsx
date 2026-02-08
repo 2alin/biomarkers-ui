@@ -16,6 +16,12 @@ export default function StatusBadge({ value, range }: StatusBadgeProps) {
     normal: "bg-postive-100",
   };
 
+  const outlineVariant: Record<StatusType, string> = {
+    low: "outline-alert-300",
+    high: "outline-alert-300",
+    normal: "outline-postive-300",
+  };
+
   const textVariant: Record<StatusType, string> = {
     low: "text-alert-900",
     high: "text-alert-900",
@@ -24,9 +30,10 @@ export default function StatusBadge({ value, range }: StatusBadgeProps) {
 
   return (
     <span
-      className={`flex justify-center items-center gap-2 rounded-full px-4 py-1
+      className={`flex justify-center items-center gap-2 rounded-full px-3 py-1 outline
                   ${textVariant[status]}
                   ${bgVariant[status]}
+                  ${outlineVariant[status]}
                 `}
     >
       <span

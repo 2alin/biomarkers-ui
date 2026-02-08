@@ -15,7 +15,7 @@ export function DetailsCard({ detailedResult }: DetailsCardProps) {
   const fieldNameClass = "justify-self-end text-right capitalize text-gray-500";
 
   return (
-    <article className="bg-primary-100 grid grid-cols-[1fr_3fr] gap-x-3 gap-y-2 rounded-xl p-3 gont font-semibold text-gray-600">
+    <article className="outline outline-gray-200 grid grid-cols-[1fr_3fr] gap-x-3 gap-y-2 rounded-xl p-3 gont font-semibold text-gray-600">
       {/* Category */}
       {biomarker && (
         <>

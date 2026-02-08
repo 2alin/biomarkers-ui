@@ -22,8 +22,8 @@ export default function ResultCard({
     <button
       aria-label={`View details for ${biomarker ? biomarker.name : "biomarker"}`}
       onClick={onClick}
-      className={`w-full sm:max-w-2xl rounded-2xl p-4 bg-white outline-1 cursor-pointer transition-all
-                  ${isSelected ? "shadow-md shadow-primary-100 outline-primary-200" : " outline-gray-200"}`}
+      className={`w-full sm:max-w-2xl rounded-xl p-4  outline-1 cursor-pointer transition-all
+                  ${isSelected ? "bg-secondary-75 outline-secondary-400" : "bg-white outline-gray-200"}`}
     >
       <article
         className={`grid items-center gap-x-6 gap-y-2
@@ -35,12 +35,12 @@ export default function ResultCard({
           {biomarker ? biomarker.name : result.biomarkerId}
         </h1>
         {/* category */}
-        <p className="order-4 justify-self-start text-sm font-semibold tracking-wider text-gray-600 sm:order-3 sm:justify-self-end">
+        <p className="order-4 justify-self-start text-sm font-semibold tracking-wider text-gray-800 sm:order-3 sm:justify-self-end">
           {biomarker && biomarker.category}
         </p>
         {/* date */}
         {/* we are hiding date at the moment, as we may not need it */}
-        <p className="hidden justify-self-end text-sm tracking-wide text-gray-700 sm:justify-self-start">
+        <p className="hidden justify-self-end text-sm tracking-wide text-gray-800 sm:justify-self-start">
           {resultDate.toLocaleDateString(undefined, {
             year: "numeric",
             month: "long",
@@ -57,7 +57,7 @@ export default function ResultCard({
           >
             {result.value}
           </span>
-          <span className="text-sm tracking-wide font-semibold text-gray-700 justify-self-start">
+          <span className="text-sm tracking-wide font-semibold text-gray-800 justify-self-start">
             {biomarker && biomarker.standardUnit}
           </span>
         </p>
@@ -71,7 +71,7 @@ export default function ResultCard({
           )}
         </p>
         {/* reference range */}
-        <p className="order-5 flex flex-wrap gap-1 justify-self-end justify-end text-sm tracking-wide text-gray-700">
+        <p className="order-5 flex flex-wrap gap-1 justify-self-end justify-end text-sm tracking-wide text-gray-800">
           {biomarker && (
             <>
               <span>Target:</span>

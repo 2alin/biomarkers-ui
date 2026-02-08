@@ -73,9 +73,9 @@ export function NotesCard({ biomarker }: NotesCardProps) {
   }
 
   return (
-    <article className="flex gap-2 flex-col bg-primary-100 rounded-xl p-3 gont font-semibold text-gray-600">
+    <article className="flex gap-2 flex-col rounded-xl font-semibold text-gray-600">
       <div className="flex justify-between">
-        <label htmlFor={notesInputId} className="capitalize text-gray-500">
+        <label htmlFor={notesInputId} className="capitalize text-gray-800">
           add your biomarker notes:
         </label>
         {/* we are currently only reporting when the storange sync was successfull */}
@@ -87,7 +87,7 @@ export function NotesCard({ biomarker }: NotesCardProps) {
       </div>
       <textarea
         id={notesInputId}
-        className="h-32 p-2 rounded-xl border border-gray-400"
+        className="h-32 p-2 rounded-xl outline outline-gray-200"
         value={note}
         onChange={handleChange}
       />
