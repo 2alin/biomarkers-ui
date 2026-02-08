@@ -6,7 +6,6 @@ import {
   type SetStateAction,
 } from "react";
 import { DetailedResultsContext } from "../contexts/DetailedResultsContext";
-import closeIcon from "../assets/arrow-right.svg";
 import { DetailsCard } from "../components/DetailsCard";
 import { NotesCard } from "../components/NotesCard";
 

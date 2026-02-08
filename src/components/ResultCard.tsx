@@ -52,7 +52,7 @@ export default function ResultCard({
           <span
             className={`
               font-semibold mr-1
-              ${biomarker && getStatus(result.value, biomarker.referenceRange) === "normal" ? "text-postive-600" : "text-alert-700"}
+              ${biomarker && getStatus(result.value, biomarker.referenceRange) === "normal" ? "text-positive-600" : "text-alert-700"}
             `}
           >
             {result.value}

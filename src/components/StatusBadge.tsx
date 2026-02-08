@@ -13,19 +13,19 @@ export default function StatusBadge({ value, range }: StatusBadgeProps) {
   const bgVariant: Record<StatusType, string> = {
     low: "bg-alert-100",
     high: "bg-alert-100",
-    normal: "bg-postive-100",
+    normal: "bg-positive-100",
   };
 
   const outlineVariant: Record<StatusType, string> = {
     low: "outline-alert-300",
     high: "outline-alert-300",
-    normal: "outline-postive-300",
+    normal: "outline-positive-300",
   };
 
   const textVariant: Record<StatusType, string> = {
     low: "text-alert-900",
     high: "text-alert-900",
-    normal: "text-postive-900",
+    normal: "text-positive-900",
   };
 
   return (
@@ -43,7 +43,7 @@ export default function StatusBadge({ value, range }: StatusBadgeProps) {
                 ? "mask-[url(./assets/down.svg)] bg-alert-900"
                 : status === "high"
                   ? "mask-[url(./assets/up.svg)] bg-alert-900"
-                  : "mask-[url(./assets/check.svg)] bg-postive-900"
+                  : "mask-[url(./assets/check.svg)] bg-positive-900"
             }
           `}
       ></span>

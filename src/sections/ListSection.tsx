@@ -15,7 +15,6 @@ export default function ListSection({
   selectedResultId,
   setSelectedResultId,
 }: ListSectionProps) {
-  console.log("filtered Detaiols", filteredDetails);
 
   return (
     <section
