@@ -80,7 +80,7 @@ export default function ResultsPage({ setLastResultsDate }: ResultsPageProps) {
     };
 
     fetchData();
-  }, []);
+  }, [setLastResultsDate]);
 
   if (fetchState === "idle") {
     // Currently we don't need to display a loading state before fetching starts.

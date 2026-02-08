@@ -33,7 +33,7 @@ export default function OverviewSection() {
   const score = `${Math.round((100 * normalAmount) / resultsAmount)} %`;
 
   return (
-    <section className="flex gap-2 md:gap-16 py-2 px-4 justify-around md:justify-center">
+    <section className="flex justify-around gap-2 border-b border-gray-100 px-4 py-2 md:justify-center md:gap-16">
       <OverviewCard
         title="total tests"
         value={resultsAmount.toString()}

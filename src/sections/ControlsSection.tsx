@@ -122,7 +122,7 @@ export default function ControlsSection({
   );
 
   return (
-    <section className="px-4 py-2 gap-1 flex flex-col 3xl:flex-row-reverse 3xl:justify-center 3xl:gap-4 ">
+    <section className="flex flex-col gap-1 border-b border-gray-100 px-4 py-2 3xl:flex-row-reverse 3xl:justify-center 3xl:gap-4">
       <form
         className="flex gap-4 overflow-x-auto sm:items-center sm:justify-end"
         onSubmit={(e) => e.preventDefault()}
