@@ -19,6 +19,7 @@ import {
   sortDetailedResults,
 } from "../utilities/sorting";
 import ControlsSection from "../sections/ControlsSection";
+import { filterLatestBiomarkerResults } from "../utilities/filter";
 
 export default function ResultsPage() {
   const [fetchState, setFetchState] = useState<FetchState>("idle");
@@ -48,6 +49,7 @@ export default function ResultsPage() {
         setDetailedResultsMap(newMap);
 
         let newFilteredDetails = newMap ? [...newMap.values()] : [];
+        newFilteredDetails = filterLatestBiomarkerResults(newFilteredDetails);
         newFilteredDetails = sortDetailedResults(
           newFilteredDetails,
           initialSortType,

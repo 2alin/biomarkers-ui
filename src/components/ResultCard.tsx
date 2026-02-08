@@ -16,8 +16,6 @@ export default function ResultCard({
 }: ResultCardProps) {
   const { result, biomarker } = detailedResult;
 
-  const resultDate = new Date(result.sampledAt);
-
   return (
     <button
       aria-label={`View details for ${biomarker ? biomarker.name : "biomarker"}`}
@@ -37,15 +35,6 @@ export default function ResultCard({
         {/* category */}
         <p className="order-4 justify-self-start text-sm font-semibold tracking-wider text-gray-800 sm:order-3 sm:justify-self-end">
           {biomarker && biomarker.category}
-        </p>
-        {/* date */}
-        {/* we are hiding date at the moment, as we may not need it */}
-        <p className="hidden justify-self-end text-sm tracking-wide text-gray-800 sm:justify-self-start">
-          {resultDate.toLocaleDateString(undefined, {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
         </p>
         {/* value + unit */}
         <p className="order-3 justify-self-end sm:order-4 sm:col-start-2 sm:justify-self-center">

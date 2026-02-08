@@ -20,6 +20,7 @@ import {
   sortDetailedResults,
 } from "../utilities/sorting";
 import type { SortOrder } from "../components/SortOrderSelectors.types";
+import { filterLatestBiomarkerResults } from "../utilities/filter";
 
 interface ControlsSectionProps {
   initialSortType: SortType;
@@ -56,6 +57,7 @@ export default function ControlsSection({
     let initFilteredDetails = detailedResultsMap
       ? [...detailedResultsMap.values()]
       : [];
+    initFilteredDetails = filterLatestBiomarkerResults(initFilteredDetails);
     initFilteredDetails = sortDetailedResults(
       initFilteredDetails,
       initialSortType,

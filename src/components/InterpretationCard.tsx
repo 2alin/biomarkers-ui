@@ -28,7 +28,7 @@ export function InterpretationCard({
     `}
     >
       <header
-        className={`flex items-start gap-2 font-semibold
+        className={`flex items-start gap-2 font-semibold capitalize
         ${status === "normal" ? "text-positive-900" : "text-alert-900"}
         `}
       >

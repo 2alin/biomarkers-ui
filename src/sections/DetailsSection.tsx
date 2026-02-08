@@ -10,6 +10,7 @@ import { InterpretationCard } from "../components/InterpretationCard";
 import { NotesCard } from "../components/NotesCard";
 import TestResultCard from "../components/TestResultCard";
 import TestDateCard from "../components/TestDateCard";
+import PreviousResultsCard from "../components/PreviousResultsCard";
 
 interface DetailsSectionProps {
   selectedResultId: string | null;
@@ -81,6 +82,7 @@ export default function DetailsSection({
             <InterpretationCard {...{ detailedResult }} />
             <TestResultCard {...{ detailedResult }} />
             <TestDateCard {...{ detailedResult }} />
+            <PreviousResultsCard {...{ detailedResult }} />
             {detailedResult.biomarker && (
               <NotesCard biomarker={detailedResult.biomarker} />
             )}

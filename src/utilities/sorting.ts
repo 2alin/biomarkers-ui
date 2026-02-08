@@ -12,7 +12,7 @@ export const defaultAscendingByType: Record<SortType, boolean> = {
 /**
  * Sorts the given list of detailed results without mutating the original array.
  *
- * @param detailedResults The list of detailed results to sor.
+ * @param detailedResults The list of detailed results to sort.
  * @param sortType The type of sorting
  * @param isAscending Whether the sort should be ascending or descending
  * @returns A new sorted array of detailed results
