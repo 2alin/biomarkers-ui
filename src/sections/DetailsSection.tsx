@@ -6,8 +6,10 @@ import {
   type SetStateAction,
 } from "react";
 import { DetailedResultsContext } from "../contexts/DetailedResultsContext";
-import { DetailsCard } from "../components/DetailsCard";
+import { InterpretationCard } from "../components/InterpretationCard";
 import { NotesCard } from "../components/NotesCard";
+import TestResultCard from "../components/TestResultCard";
+import TestDateCard from "../components/TestDateCard";
 
 interface DetailsSectionProps {
   selectedResultId: string | null;
@@ -47,10 +49,10 @@ export default function DetailsSection({
   return (
     <section
       className={`
-        flex flex-col h-full overflow-hidden
+        flex flex-col h-full overflow-hidden bg-gray-50
         md:max-w-xl md:rounded-xl md:border md:border-gray-200
-        md:transition-allmd:duration-300 md:ease-in-out 
-        ${selectedResultId ? "flex-1  md:flex-2" : "flex-0"}
+        md:transition-all md:duration-300 md:ease-in-out 
+        ${selectedResultId ? "absolute top-0 bottom-0 md:static md:top-auto md:bottom-auto  md:flex-2" : "flex-0 opacity-0"}
     `}
     >
       {detailedResult && (
@@ -76,7 +78,9 @@ export default function DetailsSection({
             </button>
           </header>
           <div className="flex overflow-auto flex-col p-4 gap-4">
-            <DetailsCard {...{ detailedResult }} />
+            <InterpretationCard {...{ detailedResult }} />
+            <TestResultCard {...{ detailedResult }} />
+            <TestDateCard {...{ detailedResult }} />
             {detailedResult.biomarker && (
               <NotesCard biomarker={detailedResult.biomarker} />
             )}

@@ -74,20 +74,27 @@ export function NotesCard({ biomarker }: NotesCardProps) {
 
   return (
     <article className="flex gap-2 flex-col rounded-xl font-semibold text-gray-600">
-      <div className="flex justify-between">
-        <label htmlFor={notesInputId} className="capitalize text-gray-800">
-          add your biomarker notes:
+      <header className="flex gap-2 justify-between">
+        <label
+          htmlFor={notesInputId}
+          className="flex gap-1 items-start capitalize text-gray-800"
+        >
+          <span className="size-5 mask-size-[100%] mask-[url(./assets/notebook-pen.svg)] bg-gray-800" />
+          <span>add your biomarker notes:</span>
         </label>
         {/* we are currently only reporting when the storange sync was successfull */}
         <span
-          className={`ml-2 size-6 bg-secondary-600 mask-size-[100%] mask-[url(./assets/cloud-check.svg)] transition-all 
-            
-            ${syncState === "done" || syncState === "idle" ? "opacity-100" : "opacity-0"}`}
-        ></span>
-      </div>
+          className={`flex capitalize gap-1 font-medium text-sm items-end transition-all ${syncState === "done" || syncState === "idle" ? "opacity-100" : "opacity-0"}`}
+        >
+          <span>saved</span>
+          <span
+            className={`size-6 bg-gray-800 mask-size-[100%] mask-[url(./assets/cloud-check.svg)]`}
+          ></span>
+        </span>
+      </header>
       <textarea
         id={notesInputId}
-        className="h-32 p-2 rounded-xl outline outline-gray-200"
+        className="h-32 bg-white p-2 rounded-lg outline outline-gray-200"
         value={note}
         onChange={handleChange}
       />

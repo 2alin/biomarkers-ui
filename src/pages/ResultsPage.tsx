@@ -93,7 +93,7 @@ export default function ResultsPage() {
           setSelectedResultId,
         }}
       />
-      <div className="flex md:px-4 md:justify-center overflow-auto">
+      <div className="flex md:px-4 md:py-2 md:justify-center overflow-auto">
         <ListSection
           {...{ filteredDetails, selectedResultId, setSelectedResultId }}
         />
