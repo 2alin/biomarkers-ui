@@ -20,6 +20,7 @@ import {
 } from "../utilities/sorting";
 import ControlsSection from "../sections/ControlsSection";
 import { filterLatestBiomarkerResults } from "../utilities/filter";
+import OverviewSection from "../sections/OverviewSection";
 
 export default function ResultsPage() {
   const [fetchState, setFetchState] = useState<FetchState>("idle");
@@ -87,6 +88,7 @@ export default function ResultsPage() {
 
   return (
     <DetailedResultsContext value={detailedResultsMap}>
+      <OverviewSection />
       <ControlsSection
         {...{
           initialSortType,
