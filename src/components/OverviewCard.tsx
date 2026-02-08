@@ -20,10 +20,18 @@ export default function OverviewCard({
     alert: "text-alert-600",
   };
 
-  console.log("color", colorVariant);
+  const bgColors: Record<ColorVariant, string> = {
+    secondary: "bg-secondary-100",
+    positive: "bg-positive-100",
+    alert: "bg-alert-100",
+  };
 
   return (
-    <article className="flex items-center justify-center gap-4 rounded-lg bg-white px-2 sm:px-4 py-2 outline outline-gray-200">
+    <article
+      className={`flex items-center justify-center gap-4 rounded-lg px-2 sm:px-4 py-2 outline outline-gray-200
+      ${bgColors[colorVariant]}
+    `}
+    >
       <div className="hidden sm:flex">{children}</div>
       <p className="flex flex-col items-center">
         <span className="text-sm text-center capitalize text-gray-800 font-semibold">

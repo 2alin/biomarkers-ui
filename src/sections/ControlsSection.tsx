@@ -131,9 +131,9 @@ export default function ControlsSection({
     getCategorySelectorDataList(detailedResultsMap);
 
   return (
-    <section className="px-4 py-2 gap-1 flex flex-col">
+    <section className="px-4 py-2 gap-1 flex flex-col 2xl:flex-row-reverse 2xl:justify-center 2xl:gap-8 ">
       <form
-        className="flex gap-4 overflow-x-auto sm:items-center sm:justify-end "
+        className="flex gap-4 overflow-x-auto sm:items-center sm:justify-end"
         onSubmit={(e) => e.preventDefault()}
       >
         <SortTypeSelectors
