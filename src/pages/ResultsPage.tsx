@@ -29,7 +29,7 @@ export default function ResultsPage() {
 
   const [selectedResultId, setSelectedResultId] = useState<string | null>(null);
 
-  const initialSortType = "date";
+  const initialSortType = "name";
 
   const [filteredDetails, setFilteredDetails] = useState<DetailedResult[]>([]);
 

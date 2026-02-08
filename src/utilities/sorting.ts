@@ -5,8 +5,8 @@ import type { DetailedResult } from "../contexts/DetailedResultsContext.types";
  * Defines if by default whether a sort type should be ascending or not
  */
 export const defaultAscendingByType: Record<SortType, boolean> = {
-  date: false,
   name: true,
+  anomaly: true,
 };
 
 /**
@@ -28,8 +28,9 @@ export function sortDetailedResults(
     const sortReturnValue = isAscending ? 1 : -1;
     const aName = (a.biomarker?.name || "").toLowerCase();
     const bName = (b.biomarker?.name || "").toLowerCase();
-    const aTimeStamp = new Date(a.result.sampledAt).getTime();
-    const bTimeStamp = new Date(b.result.sampledAt).getTime();
+
+    const aDeviation = getRelativeDeviation(a);
+    const bDeviation = getRelativeDeviation(b);
 
     if (sortType === "name") {
       if (bName < aName) {
@@ -37,14 +38,14 @@ export function sortDetailedResults(
       } else if (aName < bName) {
         return -1 * sortReturnValue;
       } else {
-        // when names are equal, let's always sort from new to old date
-        return bTimeStamp - aTimeStamp;
+        // when names are equal, let's show more 'normal' results first
+        return aDeviation - bDeviation;
       }
-    } else if (sortType === "date") {
-      if (bTimeStamp !== aTimeStamp) {
-        return sortReturnValue * (aTimeStamp - bTimeStamp);
+    } else if (sortType === "anomaly") {
+      if (aDeviation !== bDeviation) {
+        return sortReturnValue * (aDeviation - bDeviation);
       } else {
-        // when dates are equal, let's always sort ascendently in name
+        // when anomalies are equal, let's always sort ascendently in name
         if (bName < aName) {
           return 1;
         } else if (aName < bName) {
@@ -59,4 +60,27 @@ export function sortDetailedResults(
   });
 
   return newDetailedResults;
+}
+
+/**
+ * Gets a relative deviation from the result value to the mean of the biomarker range
+ *
+ * @param detailedResult The detailed result from where to get its range deviation
+ * @returns A relative deviation that is a proportion of the size of the range
+ */
+function getRelativeDeviation(detailedResult: DetailedResult) {
+  const { result, biomarker } = detailedResult;
+
+  if (!biomarker) {
+    return Infinity;
+  }
+
+  const mean =
+    (biomarker.referenceRange.high + biomarker.referenceRange.low) / 2;
+
+  const relativeDeviation =
+    Math.abs(result.value - mean) /
+    (biomarker.referenceRange.high - biomarker.referenceRange.low);
+
+  return relativeDeviation;
 }

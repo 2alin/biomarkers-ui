@@ -13,7 +13,7 @@ export default function SortTypeSelectors({
   selectedSortType,
   onChange,
 }: SortTypeSelectorsProps) {
-  const sortTypes: SortType[] = ["date", "name"];
+  const sortTypes: SortType[] = ["name", "anomaly"];
 
   return (
     <div className="flex shrink-0 p-1 gap-3 items-center">
