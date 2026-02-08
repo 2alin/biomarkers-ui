@@ -8,10 +8,7 @@ import {
 import CategorySelectors from "../components/CategorySelectors";
 import SortTypeSelectors from "../components/SortTypeSelectors";
 import { DetailedResultsContext } from "../contexts/DetailedResultsContext";
-import type {
-  DetailedResult,
-  DetailedResultMap,
-} from "../contexts/DetailedResultsContext.types";
+import type { DetailedResult } from "../contexts/DetailedResultsContext.types";
 import type { CategorySelectorData } from "../components/CategorySelectors.types";
 import type { SortType } from "../components/SortTypeSelectors.types";
 import SortOrderSelectors from "../components/SortOrderSelector";
@@ -120,11 +117,12 @@ export default function ControlsSection({
     return;
   }
 
-  const categorySelectorDataList =
-    getCategorySelectorDataList(detailedResultsMap);
+  const categorySelectorDataList = getCategorySelectorDataList(
+    initialFilteredDetails,
+  );
 
   return (
-    <section className="px-4 py-2 gap-1 flex flex-col 2xl:flex-row-reverse 2xl:justify-center 2xl:gap-8 ">
+    <section className="px-4 py-2 gap-1 flex flex-col 3xl:flex-row-reverse 3xl:justify-center 3xl:gap-4 ">
       <form
         className="flex gap-4 overflow-x-auto sm:items-center sm:justify-end"
         onSubmit={(e) => e.preventDefault()}
@@ -156,15 +154,15 @@ export default function ControlsSection({
 /**
  * Gets the required data to create a list of category selectors
  *
- * @param detailedResultsMap Map with detailed data per clinical result
+ * @param filteredDetails Array with detailed data per clinical result
  * @returns A list of required data to create a category selector
  */
 function getCategorySelectorDataList(
-  detailedResultsMap: DetailedResultMap,
+  filteredDetails: DetailedResult[],
 ): CategorySelectorData[] {
   const categories = new Set<string>();
 
-  detailedResultsMap.forEach(({ biomarker }) => {
+  filteredDetails.forEach(({ biomarker }) => {
     if (biomarker) {
       const category = biomarker.category.trim().toLowerCase();
       categories.add(category);
