@@ -28,7 +28,7 @@ export default function Layout({
         </h1>
         {lastResultsDate && (
           <p className="flex gap-2 flex-wrap text-right justify-end text-sm text-gray-700 capitalize">
-            <span>Report from:</span>
+            <span>last report from:</span>
             <span>{lastResultsDate}</span>
           </p>
         )}
