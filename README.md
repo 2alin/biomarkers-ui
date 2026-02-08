@@ -50,49 +50,71 @@ The main codebase is in the `src` directory and contains the following:
 
 No automated tests were implemented due to time constrain and focus on requested deliverables.
 
+## Changes on second iteration (UX/UI focus)
+
+- Improved UI design.
+  - We need to transmit calmness to the user, so multiple changes were needed: softer colors, more use of white areas, a more uniform design amongst elements.
+- Added Overview section.
+  - We want to provide a high overview to the user as soon as possible.
+- Made supportive information more explicit.
+  - We want to reduce as much as posible cognitive load to the user, so we should be more explicit in our elements. Some elements that changed were: filter order buttons, amount of elements per category as badge, text in 'saved' notes state.
+- Increase user trust
+  - Although the design improves the user feelings, we also improved the title bar to support such trust: showing a date that indicates when the latest results were taken and reduced the attention of the UI name.
+- In main sections, show only information of the latest results taken (filter out old ones). Show old results information in details section.
+- Replace 'sort by date' by 'sort by anomality', which is a property that the user may be interested (how close to normal a result is).
+
 ## Use case assumptions
 
-- Users are people that care for their health: professionals and seniors
-- User has the time to focus in the content of the app
+- Users are 30-45 year old people that would like to understand their clinical results
 - User's language written form is Left-To-Right. This is a temporal assumption due to time constrain.
 
-## Decisions and trade-offs
+## UX/UI Decisions
 
-From the research I made in the type of users we may have, I decided for three charactistics to stay prevelant in the UI:
+I decided for four charactistics to stay prevelant in the UI:
 
-- Clarity: User is using the UI to learn from data, the less polluted the UI is the better the user will be able to navigate through all the information.
-- Visibility (text): User may be a senior and requires that the text is legible enough. We shouldn't deviate too much from normal font size (16px).
-- Usability: User should be able to navigate through a list of data while more detailed data is at hand. User's time should be in analysing the data, not being distracted by UI functionality.
+- Calmness: we don't want users to feel stressed while browsing their result
+- Clarity: through well defined layout elements that follow an importance hierarchy.
+- Visibility: checking that contrast ratio passes the WCAG Level AA in all our UI and that main and supportive text are not too small.
+- Usability: user should be able to navigate without unexpected context jumps.
 
-### Fetching data and UI loading
+### UI characteristics for user guidance
 
-For heavy data applications, we should fragmentize the requests of data per component that use it. But for the current use case, the data per user is small. 
+As user will naturally navigate content in an "F" shape (initial user assumption), we decided to organize the most important areas in that shape as much as possible.
 
-Fragmentizing requests will add complexities that are not benefitial to the user experience. So I decided to fetch all the needed data at once on UI initialization and hold it in memory so all UI components can use it.
+But as the UI should allow flexibility to the user to inspect content in different levels, we made use of the following charactestics to guide users:
 
-### Sticked (always visible) top bars
+1. Colors: this allows user to see the imporantance of content and the relationship of elements that are not physically close. Helpful for a high overview.
+2. Text size and weight: supportive characteristic when the user is consuming information in deeper levels and also supportive to discern text that shouldn't distract (i.e. labels)
+3. Card groups: allows user to easily focus on content that share the same context.
 
-I always try to not take as much space as possible from the user, but there were two elements that I decided to always show:
+### Layout and user navigation experience
 
-- Title bar: Only as a normal constraint of a real case app or page, not because it's needed in this case.
-- Category selector: As a user I would like to have easy access to groups that allow me to scan (and change) clinical results in a high level, so I can get a first impression before going into details.
+I decided to have four main sections that the user will be aware of: Overview, Controls, Results List, Details.
 
-### Sorting type and order
+This is how the user will experience navigating through the UI:
 
-I provided sorting by name as it was suggested but as a user I find important that I can see the results by date, so I added that sort type as well.
+1. User will notice the Overview section due to being at the top and colorized elements, but as colors are soft it will still allow user to navigate through another section.
+2. User will also notice the result list section as its element have colorized elements (health status badges), but as that section is not the next one, user will inspect the second: Controls.
+3. User will check the Controls section and notice all the custom experience that it has at hand, but as this section is the less highlighted of all, user will move on.
+4. User will focus on the Result List section and as high overview user will notice the amount of 'normal' / 'anormal' results due to badge colors.
+5. As all the clickable elements share the same inital background color (white), user will infer from the control elements, that the card can be clicked.
+6. Finally, in the Details section, user will first confirm the correlation between the card they selected and the details as well as the health status, thanks to the colors displayed there. As the Details section share the same level of attention as the Overview and the Result List, user can focus on its content to know more about the result.
 
-Also, as a user the order importance is different depending on the type: a user sorting by date may want to see newest results first (descendence) but a user sorting by name may want to see by alphabetical order (ascendence). Because of that the 'default order' is different per type, but the user can manually change the sort order as well.
+As we want all those sections to be available to the user as much as possible, one trade-off that I have is the reduction of vertical space for the result list.
 
-### Results Cards
+### Use of cards across the UI
 
-I decided to go with cards as it's a very graphic way to display information instead of a table: we have the freedom to focus the user in specific areas.
+To keep clarity across the UI I decided to user cards to define elements and to group elements, as they are versatile structures that remain pleasant to the eye even if the purpose changes.
 
-Also, a user expects the whole card to be clickable if there's no prominent buttons inside (which is our case). In order to allow cards to be clickable I had two options:
+### UI Colors
 
-- (easier to implement) Whole card is a button that can be announced to screen readers and interacted by keyboard, but user can't select text.
-- (harder to implement) Having an invisibe button inside the card that expands to cover the whole card. Hard to implement as we need to make adjustments to make it accessibel to screen readers and keyboard navigation.
+We need the following colors: brand colors (primary and secondary, i.e. green and orange), and colors to visualize 'normal' and 'anormal' health states.
 
-As the card is a visual representation of the information and the information in there is composed of very small units, I decided that a user may not need to select text from there: they can always select any information from the expanded card information drawer.
+In order to satisfy calmness characteristic, I went with soft color shadows for all of them.
+
+For 'normal' health state color, I went with a soft blue as green is already a brand color.
+
+For 'anormal' health state color, I went with 'coral' which is a less vibrant variation of red.
 
 ### Details view
 
@@ -100,13 +122,40 @@ I had two options: modal/dialog or drawer.
 
 As we don't want the user to be distracted by too many open/close actions, I went for drawer as it can show always information to the user while they still scrolls through the list, only if the space allows it: in narrow screens, the space is totally taken by the drawer.
 
-I'm happy with the current structure of the details view as it satifies my minimum criteria, but more love can be given if I were to have more time.
+## Technical Decisions
+
+### Fetching data and UI loading
+
+For heavy data applications, we should fragmentize the requests of data per component that use it. But for the current use case, the data per user is small.
+
+Fragmentizing requests will add complexities that are not benefitial to the user experience. So I decided to fetch all the needed data at once on UI initialization and hold it in memory so all UI components can use it.
+
+### Biomarker results of different dates
+
+As a user I will be interested on seing the latest results only and only see old ones for comparison purposes.
+
+So, I decided to filter out old results from the main view elements (Overview and Result List sections) and show that information as a sub-section of the Details section.
+
+It would be nice to visually show the user how much they have improved health wise. That can be a secon day feature.
+
+### Sorting type and order
+
+I provided sorting by name as it was suggested, but as a user I find important that I can see the results by "anomality", or how far it is from "normal", so I added that sort type as well.
+
+As a user, I would also like to see such "anomality" displayed in a more visual way, but that could be a second day feature.
+
+### Result cards as buttons
+
+In order to allow the result list cards to be clickable I had two options:
+
+- (easier to implement) Whole card is a button that can be announced to screen readers and interacted by keyboard, but user can't select text.
+- (harder to implement) Having an invisibe button inside the card that expands to cover the whole card. Hard to implement as we need to make adjustments to make it accessibel to screen readers and keyboard navigation.
+
+As the card is a visual representation of the information and the information in there is composed of very small units, I decided that a user may not need to select text from there: they can always select any information from the expanded card information drawer.
 
 ### Stored notes
 
-We want to allow the user to store personal notes in the details view after they click on a clinical result, but! it wouldn't make sense that the user stores note per clinical result as old results are not more relevant.
-
-So I decided to store notes per biomarker related to the clinical result: notes that I added to old results of Vitamin B (for example) will still be shown and edited to new results of the same vitamin.
+We are storing notes per biomarker not per result. This matches user interest and aligns with showing only the latest results per biomarker.
 
 ### Keyboard accessibility
 
@@ -123,18 +172,19 @@ In order to provide familiarity and reduce friction to Aescolab users I decided 
 
 ## Use of AI
 
-I used AI as a complement tool of MDN docs and StackOverflow. Nevertheless, while doing this project, I still browsed those documentation sites as they provide a well structured and trusted information.
+I used AI in tne following cases:
 
-I also used AI to give a code review at the end project creation process: their requested changes were minimal and focused mostly with refactoring utility functions.
+- A complement tool of MDN docs and StackOverflow. Nevertheless, while doing this project, I still browsed those documentation sites as they provide a well structured and trusted information.
+
+- To give a code review at the end project creation process: their requested changes were minimal and focused mostly with refactoring utility functions.
+
+- To generate multiple mock designs that follow best practices around clarity and usability. This was reinforced with multiple articles that I researched in the web. The design that I ended up with was a combination of all the research I made, mocks that I obtained and my analysis as a user.
 
 ## What to do next with more time
 
-Many things, but summarizing and in a personal priority order for the current state of the UI:
-- More thoughts in the section that displays detailed information of the clinical result. The section above "my notes" input section.
-- More thoughts in the filter and sort control sections: try a unified section.
+- Add visual element(s) to the user that represent how far a result is from being 'normal'.
+- More thoughts in the filter and sort control sections: try menus to reduce space needed.
 - Handle specific data error scenarios: network types and uncompatible data.
 - Component automated tests. The heavier the UI, the less we would like to rely on manual tests.
-- Add a details section that provides information to the user about older sample results for the same biomarker.
 - Internationalization. Requires also support for automated strings adition and templates.
 - Improve keyboard navigation: if a user closes the drawer, the keyboard focus should be brought back to the the item that opened the drawer.
-
