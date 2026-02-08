@@ -72,7 +72,7 @@ export default function DetailsSection({
             <button
               ref={closeButtonRef}
               aria-label="Close details section"
-              className="flex size-8 cursor-pointer rounded-md p-1 outline outline-secondary-400"
+              className="flex size-8 cursor-pointer rounded-md p-1 border border-secondary-400"
               onClick={handleClose}
             >
               <span className="size-full bg-secondary-800 mask-[url(./assets/close.svg)] mask-size-[100%]"></span>
