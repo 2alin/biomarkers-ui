@@ -57,7 +57,7 @@ export function InterpretationCard({
 function getTitle(status: StatusType) {
   switch (status) {
     case "low":
-      return "Bellow normal";
+      return "Below normal";
     case "high":
       return "Above normal";
     case "normal":
@@ -70,11 +70,11 @@ function getTitle(status: StatusType) {
 function getAdvice(status: StatusType) {
   switch (status) {
     case "low":
-      return "The result is bellow the reference range and may need attention. Please consult your healthcare provider for the best plan to improve your lifestyle.";
+      return "The result is below the reference range and may need attention. Please consult your healthcare provider for the best plan to improve your lifestyle.";
     case "high":
       return "The result is above the reference range and may need attention. Please consult your healthcare provider for the best plan to improve your lifestyle.";
     case "normal":
-      return "The result is within the reference range. Stay maintaining a healthy lifestyle and consult your healthcare provider for the best way to monitor it.";
+      return "The result is within the reference range. Continue maintaining a healthy lifestyle and consult your healthcare provider for the best way to monitor it.";
     default:
       return "";
   }
