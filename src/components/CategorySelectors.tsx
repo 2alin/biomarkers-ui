@@ -33,8 +33,6 @@ export default function CategorySelectors({
       return biomarker.category.trim().toLowerCase() === categoryNameToCompare;
     });
 
-    console.log(resultsInCategory);
-
     return resultsInCategory.length;
   }
 

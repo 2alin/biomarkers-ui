@@ -15,7 +15,6 @@ export default function ListSection({
   selectedResultId,
   setSelectedResultId,
 }: ListSectionProps) {
-
   return (
     <section
       className={`flex overflow-auto  flex-col md:transition-all md:duration-300 md:ease-in-out
@@ -28,6 +27,9 @@ export default function ListSection({
         </p>
       ) : (
         <div className="flex flex-col overflow-auto">
+          <div className="flex flex-col px-4 items-center">
+            <p className="w-full sm:max-w-2xl mb-2   text-sm text-gray-700">{`Showing ${filteredDetails.length} results`}</p>
+          </div>
           <ResultList
             detailedResults={filteredDetails}
             {...{ selectedResultId, setSelectedResultId }}
