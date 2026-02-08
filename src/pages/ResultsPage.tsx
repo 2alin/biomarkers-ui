@@ -21,17 +21,22 @@ import {
 import ControlsSection from "../sections/ControlsSection";
 import { filterLatestBiomarkerResults } from "../utilities/filter";
 import OverviewSection from "../sections/OverviewSection";
+import { InitialResultsContext } from "../contexts/InitialResultsContext";
 
 export default function ResultsPage() {
   const [fetchState, setFetchState] = useState<FetchState>("idle");
   const [detailedResultsMap, setDetailedResultsMap] =
     useState<DetailedResultMap | null>(null);
 
+  const [initialDetailedResults, setInitialDetailedResuls] = useState<
+    DetailedResult[]
+  >([]);
+
+  const [filteredDetails, setFilteredDetails] = useState<DetailedResult[]>([]);
+
   const [selectedResultId, setSelectedResultId] = useState<string | null>(null);
 
   const initialSortType = "name";
-
-  const [filteredDetails, setFilteredDetails] = useState<DetailedResult[]>([]);
 
   /**
    * Initialization: fetch results and biomarkers data
@@ -56,6 +61,8 @@ export default function ResultsPage() {
           initialSortType,
           defaultAscendingByType[initialSortType],
         );
+
+        setInitialDetailedResuls(newFilteredDetails);
         setFilteredDetails(newFilteredDetails);
 
         setFetchState("success");
@@ -88,21 +95,23 @@ export default function ResultsPage() {
 
   return (
     <DetailedResultsContext value={detailedResultsMap}>
-      <OverviewSection />
-      <ControlsSection
-        {...{
-          initialSortType,
-          filteredDetails,
-          setFilteredDetails,
-          setSelectedResultId,
-        }}
-      />
-      <div className="flex md:px-4 md:py-2 md:justify-center overflow-auto">
-        <ListSection
-          {...{ filteredDetails, selectedResultId, setSelectedResultId }}
+      <InitialResultsContext value={initialDetailedResults}>
+        <OverviewSection />
+        <ControlsSection
+          {...{
+            initialSortType,
+            filteredDetails,
+            setFilteredDetails,
+            setSelectedResultId,
+          }}
         />
-        <DetailsSection {...{ selectedResultId, setSelectedResultId }} />
-      </div>
+        <div className="flex md:px-4 md:py-2 md:justify-center overflow-auto">
+          <ListSection
+            {...{ filteredDetails, selectedResultId, setSelectedResultId }}
+          />
+          <DetailsSection {...{ selectedResultId, setSelectedResultId }} />
+        </div>
+      </InitialResultsContext>
     </DetailedResultsContext>
   );
 }

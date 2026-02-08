@@ -20,7 +20,7 @@ import {
   sortDetailedResults,
 } from "../utilities/sorting";
 import type { SortOrder } from "../components/SortOrderSelectors.types";
-import { filterLatestBiomarkerResults } from "../utilities/filter";
+import { InitialResultsContext } from "../contexts/InitialResultsContext";
 
 interface ControlsSectionProps {
   initialSortType: SortType;
@@ -36,6 +36,7 @@ export default function ControlsSection({
   setSelectedResultId,
 }: ControlsSectionProps) {
   const detailedResultsMap = useContext(DetailedResultsContext);
+  const initialFilteredDetails = useContext(InitialResultsContext);
 
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [sortType, setSortType] = useState<SortType>(initialSortType);
@@ -54,29 +55,21 @@ export default function ControlsSection({
     const newSelectedCategory = event.target.value;
     setSelectedCategory(newSelectedCategory);
 
-    let initFilteredDetails = detailedResultsMap
-      ? [...detailedResultsMap.values()]
-      : [];
-    initFilteredDetails = filterLatestBiomarkerResults(initFilteredDetails);
-    initFilteredDetails = sortDetailedResults(
-      initFilteredDetails,
-      initialSortType,
-      defaultAscendingByType[initialSortType],
-    );
-
     if (newSelectedCategory === "all") {
-      setFilteredDetails(initFilteredDetails);
+      setFilteredDetails(initialFilteredDetails);
       return;
     }
 
-    const newFilteredDetails = initFilteredDetails.filter(({ biomarker }) => {
-      if (!biomarker) {
-        return false;
-      }
+    const newFilteredDetails = initialFilteredDetails.filter(
+      ({ biomarker }) => {
+        if (!biomarker) {
+          return false;
+        }
 
-      const category = biomarker.category.trim().toLowerCase();
-      return category === newSelectedCategory;
-    });
+        const category = biomarker.category.trim().toLowerCase();
+        return category === newSelectedCategory;
+      },
+    );
 
     setFilteredDetails(newFilteredDetails);
   }
