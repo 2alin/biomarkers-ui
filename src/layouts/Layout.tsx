@@ -1,16 +1,22 @@
 import { type PropsWithChildren } from "react";
 import logoPath from "../assets/app-logo.svg";
 
-export default function Layout({ children }: PropsWithChildren) {
+interface LayoutProps {
+  lastResultsDate: string | null;
+}
+
+export default function Layout({
+  lastResultsDate,
+  children,
+}: PropsWithChildren<LayoutProps>) {
   return (
     <div className="flex h-dvh flex-col bg-gray-50">
       <header
         className={`
-          flex h-12 items-center justify-between border-b border-b-gray-100 bg-white px-4 py-2
-          text-lg font-semibold text-secondary-600
+          flex justify-between items-center min-h-12 border-b border-b-gray-100 bg-white px-4 py-2
         `}
       >
-        <h1 className="flex items-center gap-2">
+        <h1 className="flex items-start gap-2 text-lg font-semibold text-secondary-600">
           <span>
             <img
               src={logoPath}
@@ -19,9 +25,13 @@ export default function Layout({ children }: PropsWithChildren) {
             />
           </span>
           <span>Biomarkers App</span>
-          {/* following item is to align title text in the center */}
-          <span className="w-6"></span>
         </h1>
+        {lastResultsDate && (
+          <p className="flex gap-2 flex-wrap text-right justify-end text-sm text-gray-700 capitalize">
+            <span>Report from:</span>
+            <span>{lastResultsDate}</span>
+          </p>
+        )}
       </header>
       <main className="flex flex-col flex-1 overflow-hidden">{children}</main>
     </div>

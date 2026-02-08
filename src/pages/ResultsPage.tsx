@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import * as api from "../api";
 
 import ListSection from "../sections/ListSection";
@@ -23,7 +23,11 @@ import { filterLatestBiomarkerResults } from "../utilities/filter";
 import OverviewSection from "../sections/OverviewSection";
 import { InitialResultsContext } from "../contexts/InitialResultsContext";
 
-export default function ResultsPage() {
+interface ResultsPageProps {
+  setLastResultsDate: Dispatch<SetStateAction<string | null>>;
+}
+
+export default function ResultsPage({ setLastResultsDate }: ResultsPageProps) {
   const [fetchState, setFetchState] = useState<FetchState>("idle");
   const [detailedResultsMap, setDetailedResultsMap] =
     useState<DetailedResultMap | null>(null);
@@ -64,6 +68,9 @@ export default function ResultsPage() {
 
         setInitialDetailedResuls(newFilteredDetails);
         setFilteredDetails(newFilteredDetails);
+
+        const newLastResultsDate = getLastResultsDate(newFilteredDetails);
+        setLastResultsDate(newLastResultsDate);
 
         setFetchState("success");
       } catch (err) {
@@ -131,4 +138,35 @@ async function fetchBiomarkers(): Promise<api.Biomarker[]> {
     console.error("Error while fetching biomarkers: ", err);
     throw err;
   }
+}
+
+/**
+ * Gets the most recent date that a clinical result was taken
+ *
+ * @param detailedResults A list of clinical results
+ * @returns A string representing the most recent date
+ *          or 'null' if no clinical results were given
+ */
+function getLastResultsDate(detailedResults: DetailedResult[]) {
+  let lastTimeStamp: number = 0;
+
+  detailedResults.forEach(({ result }) => {
+    const timeStamp = new Date(result.sampledAt).getTime();
+
+    if (timeStamp > lastTimeStamp) {
+      lastTimeStamp = timeStamp;
+    }
+  });
+
+  if (!lastTimeStamp) {
+    return null;
+  }
+
+  const dateString = new Date(lastTimeStamp).toLocaleString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+
+  return dateString;
 }
