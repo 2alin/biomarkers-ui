@@ -2,7 +2,13 @@
 
 ## Description
 
-This project allows users to see their clinical results with the following features:
+This project is a UI demo that shows my skills in the following technologies:
+- React v19
+- TypeScript
+- Tailwind CSS
+
+
+The UI allows users to see clinical results with the following features:
 
 - Filter results by biomarker category.
 - Sort results by biomarker name and anomality variation, and by ascending and descending order.
@@ -11,14 +17,10 @@ This project allows users to see their clinical results with the following featu
 - Simple keyboard navigation through all app: 'tab' for cards and buttons and 'arrow keys' for filter and sort options.
 - Scren responsive design.
 
-Technologies used: 
-- React v19
-- TypeScript
-- Tailwind CSS
 
 ## Live version
 
-This UI can be tried at https://frontend-assignment-solution.vercel.app/
+This UI can be tried at https://biomarkers-ui-2alin.vercel.app/
 
 The following query parameters can be used there to test as well.
 
