@@ -1,8 +1,6 @@
 /**
- * :: Note to reviewer ::
  * Although local storage actions are synchronous, I decided to
  * define the following methods asynchronous to emulate a more realistic scenario
- *
  */
 
 const storageKey = "notes";
