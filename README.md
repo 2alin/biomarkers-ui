@@ -1,4 +1,4 @@
-# Biomarkers App
+# Biomarkers UI Demo
 
 ## Description
 

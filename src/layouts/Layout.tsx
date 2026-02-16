@@ -24,7 +24,7 @@ export default function Layout({
               className="w-6"
             />
           </span>
-          <span>Biomarkers App</span>
+          <span>Biomarkers UI Demo</span>
         </h1>
         {lastResultsDate && (
           <p className="flex gap-2 flex-wrap text-right justify-end text-sm text-gray-700 capitalize">
